@@ -11,5 +11,21 @@ Should handle errors gracefully with appropriate response codes.
 1. Clone the repository
 2. Run npm install in the terminal at the appropriate location of project
 3. run the code by typing *node src/app.js* in the terminal
+```
 
+## API to access the functionalities
+```
+1. To Create data: localhost:3001/create
+2. To Read data: localhost:3001/read
+3. To Delete data: localhost:3001/delete
+4. To Modify data: localhost:3001/modify
+```
+
+### Condition that need to be followed
+```
+1. send only raw json data in the body
+2. use postman to make api calls
+    a. POST for Create
+    b. GET to Read
+    c. PUT for Modify and Delete
 ```
