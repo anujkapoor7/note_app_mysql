@@ -36,13 +36,13 @@ const validateDataCreate = async(req, res, next) => {
             return res.send(err)
         }else{
             if(result.length > 0){
-                return res.status(400).send({Error: 'Note Name Already taken'})    
+                return res.status(405).send({Error: 'Note Name Already taken'})    
             }
             next()
         }
     })
     }catch(e){
-        res.status(400).send('Unable to validate the data')
+        return res.status(408).send({Error: 'Server is unable to process the request'})
     }
 }
 
@@ -54,7 +54,7 @@ const validateDatapresence = async(req, res, next) => {
             return res.send(err)
         }else{
             if(result.length === 0){
-                return res.status(400).send({Error: 'No note exist with this name, Try another name'})    
+                return res.status(405).send({Error: 'No note exist with this name, Try another name'})    
             }
             next()
         }

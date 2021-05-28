@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyparser = require('body-parser')
 
-
+//linked the main.js with app.js
 const userRouter = require('../routers/main')
 const app = express()
 
