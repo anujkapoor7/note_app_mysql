@@ -10,6 +10,7 @@ Should handle errors gracefully with appropriate response codes.
 ## Steps to use
 ``
 Use api : localhost:3001/note
+``
 this will display the homepage of website 
 with navigation buttons to add, delete, read and modify notes
-``
+
