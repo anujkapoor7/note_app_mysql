@@ -1,56 +1,92 @@
+/**
+ * @constant {express} - Express framework version (6.14.12)
+ * @constant {router} - Express routing
+ * @constant {notes} - contains methods for CRUD operations
+ * @constant {validate} - contains methods for middleware validations
+ */
 const express = require('express')
 const router = new express.Router()
 const notes = require('./notes')
 const validate = require('../Validators/validator')
-const mysql = require('mysql')
-
-// params = validate.params
-// paramstitle = validate.paramstitle
-// errorMsghere = validate.errorMsg
 
 
+/**
+ * @method {get} - response to get request
+ */
 router.get('', (req, res) => {
-    try{
-    return res.send({
+    return res.status(200).send({
         Project: 'Note Taking Application',
         Operations: ['Add note', 'Remove note', 'Modify Note', 'List Note']
     })
-    } catch(e){
-        return res.status(204)
-    }
 })
 
-router.get('/read',notes.readNote, (req, res)=>{
-    return res.status(404)
-})
 
+/**
+ * @method {get} - response to get request
+ * @method {readNote} - response back to send all the notes
+ */
+router.get('/read',notes.readNote)
+
+
+/**
+ * @method {post} - response to post request
+ * @method {validateSchema} - Validate the title and body of incoming note object
+ * @method {validateDataCreate} - Validate the if title already present
+ * @method {isValid} - response back the if title or body is not valid
+ * @method {createNote} - To add the note into the database
+ */
 router.post('/create',
                 validate.validateSchema,
                 validate.validateDataCreate,
                 validate.isValid,
-                notes.createNote,
-                async(req, res, next)=>{
-                        return res.status(404) 
-                     })
+                notes.createNote
+)
 
+
+/**
+ * @method {post} - response to post request
+ * @method {addMultipleNote} - To add or update multiple notes into the database
+ */
+router.post('/bulkcreate', notes.addMultipleNote)
+
+
+/**
+ * @method {put} - response to put request
+ * @method {deleteMultipleNote} - To delete multiple notes from the database
+ */
+router.put('/bulkdelete', notes.deleteMultipleNote)
+
+/**
+ * @method {put} - response to put request
+ * @method {validatetitle} - Validate the title of incoming note object
+ * @method {validateDataCreate} - Validate the if title already present
+ * @method {isValid} - response back the if title or body is not valid
+ * @method {deleteNote} - To delete the note from the database
+ */
 router.put('/delete', 
             validate.validatetitle,
             validate.isValid,
             validate.validateDatapresence,
             notes.deleteNote,
-            async(req, res)=>{
-                return res.status(404) 
-            })
+)
 
+/**
+ * @method {put} - response to put request
+ * @method {validateSchema} - Validate the title and body of incoming note object
+ * @method {validateDataCreate} - Validate the if title already present
+ * @method {isValid} - response back the if title or body is not valid
+ * @method {modifyNote} - To modify the note in the database
+ */
 router.put('/modify', 
             validate.validateSchema,
             validate.isValid,
             validate.validateDatapresence,
             notes.modifyNote,
-            async(req, res)=>{
-                return res.status(404) 
-            })
+)
 
+/**
+ * @method {all} - response to all types of request
+ */
 router.all('*', (req, res) => {
     res.status(404).send({
         title: '404',
@@ -58,4 +94,7 @@ router.all('*', (req, res) => {
     })
 })
 
+/**
+ * @exports {@constant {router}} - exporting all the functinalities of router
+ */
 module.exports = router

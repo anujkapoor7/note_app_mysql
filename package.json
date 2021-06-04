@@ -1,5 +1,5 @@
 {
-  "name": "NM-MYSQL",
+  "name": "NM-practice",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,9 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "circular-json": "^0.5.9",
     "express": "^4.17.1",
     "express-validator": "^6.11.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.2"
   }
 }
