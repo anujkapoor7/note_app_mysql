@@ -4,6 +4,7 @@
  */
 const {Sequelize, DataTypes} = require('sequelize')
 
+
 /**
  * Configuring the server
  * @constant {sequelize}
@@ -13,6 +14,7 @@ const sequelize = new Sequelize('notes','root','',{
     dialect: 'mysql',
     pool: {max: 5, min:0, idle:100000}
 })
+
 
 /**
  * @method {authenticate()} - checking the connection
@@ -24,6 +26,7 @@ sequelize.authenticate()
 .catch((err)=>{
     console.log('Error in connecting to the database')
 })
+
 
 /**
  * @constant {db} - instantiating the model
@@ -38,6 +41,7 @@ db.sequelize.sync({force: false})
 .then(()=>{
     console.log('Yes re-sync')
 })
+
 
 /**
  * @exports {@constant {db}}

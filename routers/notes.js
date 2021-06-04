@@ -12,12 +12,12 @@ const {note_list} = require('../models')
 const readNote =async(req, res)=>{
     try{
         const rows = await note_list.findAll()
-         return   res.status(200).send({
-                Notes: rows
-            })
+         return   res.status(200).render('read',{
+            notes: rows
+         })
         
     }catch(e){
-        return res.status(500).send({Error: 'Internal Server Error'})
+        return res.status(500).send('STATUS 500 - Error: Internal Server Error')
     }
 
 }
@@ -29,15 +29,16 @@ const readNote =async(req, res)=>{
  * @param {title, body} req 
  * @param {message, Error} res - response the appopriate message
  * @returns {res} - response the appropriate object / status / message
+ * Modified to render webpage
  */
 const createNote = async(req, res) => {
         console.log(req.body.length)
     try{
             await note_list.create(req.body)
-            return res.status(200).send({message: `Note: ${req.body.title} has been added`})
+            return res.status(200).render('add',{message: `Note: ${req.body.title} has been added`})
         
     }catch(e){
-        res.status(500).send({Error: 'Internal Server Error'})
+        return res.status(500).send('STATUS 500 - Error: Internal Server Error')
     }
 }
 
@@ -48,6 +49,7 @@ const createNote = async(req, res) => {
  * @param {title, body} req 
  * @param {message, Error} res -response the appopriate message
  * @returns {res} - response the appropriate object / status / message
+ * Modified to render webpage
  */
 const addMultipleNote = async(req, res) => {
     try{
@@ -105,14 +107,15 @@ const deleteMultipleNote = async(req, res) => {
  * @param {title} req 
  * @param {message, Error} res -response the appopriate message
  * @returns {res} - response the appropriate object / status / message
+ * Modified to render webpage
  */
 const deleteNote = async(req, res) => {
     try{
             await note_list.destroy({ where: {title: req.body.title}})
-            return res.status(200).send({message: `Note: ${req.body.title} has beeen removed`})       
+            return res.status(200).render('delete',{message: `Note: ${req.body.title} has beeen removed`})       
     }
     catch(e){
-        return res.status(500).send({Error: 'Internal server error'})
+        return res.status(500).send('STATUS 500 - Error: Internal Server Error')
     }
     
 }
@@ -124,14 +127,15 @@ const deleteNote = async(req, res) => {
  * @param {title, body} req 
  * @param {message, Error} res -response the appopriate message
  * @returns {res} - response the appropriate object / status / message
+ * Modified to render webpage
  */
 const modifyNote = async(req, res) => {
     try{
         note_list.update({body: req.body.body},{where: {title: req.body.title}})
-        return res.status(200).json({message: `Note: ${req.body.title} has been modified`})
+        return res.status(200).render('modify',{message: `Note: ${req.body.title} has been modified`})
 
     }catch(e){
-        return res.status(500).send({Error: 'internal server error'})
+        return res.status(500).send('STATUS 500 - Error: Internal Server Error')
     }
     
 }
