@@ -63,10 +63,10 @@ router.put('/bulkdelete', notes.deleteMultipleNote)
  * @method {isValid} - response back the if title or body is not valid
  * @method {deleteNote} - To delete the note from the database
  */
-router.put('/delete', 
+router.post('/delete', 
             validate.validatetitle,
-            validate.isValid,
             validate.validateDatapresence,
+            validate.isValidDelete,
             notes.deleteNote,
 )
 
@@ -77,24 +77,23 @@ router.put('/delete',
  * @method {isValid} - response back the if title or body is not valid
  * @method {modifyNote} - To modify the note in the database
  */
-router.put('/modify', 
+router.post('/modify', 
             validate.validateSchema,
+            validate.validateDataModify,
             validate.isValid,
-            validate.validateDatapresence,
             notes.modifyNote,
 )
+
 
 /**
  * @method {all} - response to all types of request
  */
 router.all('*', (req, res) => {
-    res.status(404).send({
-        title: '404',
-        errorMessage: 'Page Not Found'
-    })
+    res.status(404).send(' title: 404, Message: Page Not Found')
 })
 
 /**
  * @exports {@constant {router}} - exporting all the functinalities of router
  */
 module.exports = router
+

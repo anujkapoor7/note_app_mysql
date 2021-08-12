@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Bucket Notes</title>  
+    <link rel="icon" href="/img/note.png">
+    <link rel="stylesheet" href="/css/styles.css">  
+</head>
+
+<body>
+        <div class="main-content">
+            {{>headers}}
+            <p>Safest Place to put your Notes</p>
+            <header>
+                <a href="/read">Read Notes</a>
+                <a href="/addNote">Add notes</a>
+                <a href="/deleteNote">Delete Notes</a>
+                <a href="/modifyNote">Modify notes</a>
+            </header>    
+
+            <form action="/modify" method="POST">
+                <label>Enter the Title and body to modify the note</label><br>
+                <input placeholder="title" name="title">
+                <input placeholder="body" name="body">
+                <button>Modify Note</button>
+            
+            </form>    
+            <p class="msg">{{message}}</p>
+            <p class="err">{{Error}}</p>
+    </div>
+    {{>footers}}
+</body>
+
+</html>

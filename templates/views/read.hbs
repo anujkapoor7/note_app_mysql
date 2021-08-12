@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Bucket Notes</title>  
+    <link rel="icon" href="/img/note.png">
+    <link rel="stylesheet" href="/css/styles.css">  
+</head>
+
+<body>
+        <div class="main-content">
+            {{>headers}}
+            <p>Safest Place to put your Notes</p>
+            <header>
+                <a href="/read">Read Notes</a>
+                <a href="/addNote">Add notes</a>
+                <a href="/deleteNote">Delete Notes</a>
+                <a href="/modifyNote">Modify notes</a>
+            </header>        
+             <tbody>
+                <p><strong>Your Notes</strong></p>
+                <hr size="4" width="100%" color="#888888">  
+                {{#each notes}}
+                <p><strong>{{this.title}}: </strong>{{this.body}}</p>
+                {{/each}}
+                <hr size="4" width="100%" color="#888888">  
+                </tbody>
+    </div>
+    {{>footers}}
+</body>
+
+</html>

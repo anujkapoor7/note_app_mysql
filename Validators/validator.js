@@ -29,19 +29,40 @@ let validatetitle = [
     body('title', 'Title is not a String! please provide a valid string title').isString().bail()
 ]
 
+
+
 /**
  * @constant {isValid} - to response the appropriate error 
  * @function {isEmpty()}
  * @param {title, body} req 
  * @param {err.errors[0]} res - response the appropriate error message 
  * @param {*} next 
- * @returns {res} - to response appropriate status / message
+ * @returns {res} - to render appropriate status / message
+ * modified to render the html pages
  */
 const isValid =(req, res, next)=>{
     const err = validationResult(req)
     if(!err.isEmpty())
     {
-        return res.status(400).send(err.errors[0])
+        return res.status(400).render('add',{Error: err.errors[0].msg})
+    }
+    next()
+}
+
+/**
+ * @constant {isValid} - to response the appropriate error 
+ * @function {isEmpty()}
+ * @param {title, body} req 
+ * @param {err.errors[0]} res - response the appropriate error message 
+ * @param {*} next 
+ * @returns {res} - to render appropriate status / message
+ * modified to render the html pages
+ */
+const isValidDelete =(req, res, next)=>{
+    const err = validationResult(req)
+    if(!err.isEmpty())
+    {
+        return res.status(400).render('delete',{Error: err.errors[0].msg})
     }
     next()
 }
@@ -52,14 +73,15 @@ const isValid =(req, res, next)=>{
  * @param {title} req 
  * @param {Error} res response the appropriate error message
  * @param {*} next 
- * @returns {res} - to response appropriate status / message
+ * @returns {res} - to render appropriate status / message
+ * modified to render the html pages
  */
 const validateDataCreate = async(req, res, next) => {
     try{
         const rows = await note_list.findAll({where: {title: req.body.title}})
         if(rows.length !== 0){
-            return res.status(405).send({
-                Error: 'Note title taken'
+            return res.status(405).render('add',{
+                Error: 'Note title taken, Try with another title'
             })
             
         }
@@ -77,31 +99,60 @@ const validateDataCreate = async(req, res, next) => {
  * @param {title} req 
  * @param {Error} res response the appropriate error message
  * @param {*} next 
- * @returns {res} - to response appropriate status / message
+ * @returns {res} - to render appropriate status / message
+ * modified to render the html pages
  */
 const validateDatapresence = async(req, res, next) => {
 
     try{
         const rows = await note_list.findAll({where: {title: req.body.title}})
         if(rows.length === 0){
-            res.status(405).send({
+            res.status(405).render('delete',{
                 Error: 'No note exist with this name, Try another name'
             })
         }
         next()
     }catch(e){
-        res.status(400).send('Unable to validate the data')
+        res.status(400).render('delete',{Error: 'Unable to validate the data'})
+    }
+}
+
+/**
+ * @constant {validateDatapresence} - checks for note exists or not
+ * @method {findAll}
+ * @param {title} req 
+ * @param {Error} res response the appropriate error message
+ * @param {*} next 
+ * @returns {res} - to render appropriate status / message
+ * modified to render the html pages
+ */
+const validateDataModify = async(req, res, next) => {
+
+    try{
+        const rows = await note_list.findAll({where: {title: req.body.title}})
+        if(rows.length === 0){
+            res.status(405).render('modify',{
+                Error: 'No note exist with this name, Try another name'
+            })
+        }
+        next()
+    }catch(e){
+        res.status(400).render('modify',{Error: 'Unable to validate the data'})
     }
 }
 
 
 /**
- * @exports {@constant {validateSchema, isValid, validateDataCreate, validateDatapresence, validatetitle}}
+ * @exports {@constant {validateSchema, isValid, validateDataCreate, 
+ *                      validateDatapresence, validatetitle, 
+ *                       validateDataModify, isValidDelete}}
  */
 module.exports = {
     validateSchema: validateSchema,
     isValid: isValid,
     validateDataCreate: validateDataCreate,
     validateDatapresence:validateDatapresence,
-    validatetitle: validatetitle
+    validatetitle: validatetitle,
+    isValidDelete: isValidDelete,
+    validateDataModify: validateDataModify
 }
